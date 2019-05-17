@@ -1,0 +1,89 @@
+RAJOUTER UN BOUTON RESET, TESTER UN RETOUR POUR MINIAOD
+
+utiliser clean_collections pour nettoyer en fonction de Full, PU, Fast
+
+faire attention pour le choix des datasets : pouvoir faire SingleElectronPt1000_UP15 vs SingleElectronPt1000
+mettre les langues sous forme de fichier txt.
+verifier que les fichiers sont bien chargés.
+pour pmx et miniAOD, on fait comme dans le FastSim Oval, on ne tient pas compte de la référence.
+faire un bouton pmx et sortir les pmx des PU classiques.
+
+pour les valeurs self.my_choice_rel_1 et self.my_choice_ref_1 tester si un choix est fait avant de faire la commande : self.my_choice_rel(f)_1 = self.QLW1_rel(f)2.currentItem().text()
+verifier si les listes temp = sub_releases(list_search_1(self.my_choice_rel(f)_0)) sont vides ou pas.
+
+possibiliter d'editeur pour changer le global tag dans les fichiers _cfg dans /Tests
+voir si on ne peut pas intégrer les mails de validation (ou une partie) et le chemin des fichiers root des DataSets
+
+intégration des DataSets par fichier du type DataSets_xxx.py ou xxx sera default par defaut et/ou une autre extension
+choix des datasets par radio bouton et on garde All/None
+possibilité d'ajouter un dataset dans le fichier _default
+On intégrera les chemins (WEBURL et autres) dans un fichier PATHS_default.py
+
+dans la page web, afficher le nom des fichiers root
+
+self.validationType1 (anciennement choix_calcul) : Full, Fast
+self.validationType2 RECO, PU, pmx, miniAOD
+self.validationType3 specific (pmx vs pmx), global (pmx vs PU, pmx, ...)
+
+Full, RECO    : (not PU) and (not Fast)
+Full, PU      : PU and (not Fast)
+Full, pmx     : pmx and (not Fast) for rel, PU and (not Fast) for rel
+Full, miniAOD : idem Full, RECO
+
+Fast, RECO    : Fast and (not PU)
+
+working dir are for resuming the computation.
+histos dir are for the computed histos.
+
+DataSets Type
+    Classical : classical electron validation DataSets
+    Others    : other dataset to work with
+    All       : ???
+
+self.rel_list : liste les fichiers DQM_V001_**.root pour les différents datasets cochés (check3*) pour la release a valider
+self.ref_list : liste les fichiers DQM_V001_**.root pour les différents datasets cochés (check3*) pour la release de reference
+
+self.rel_list_mod : liste les releases, globaltags et datasets a partir des datasets cochés (check3*) pour la release a valider
+self.ref_list_mod : liste les releases, globaltags et datasets a partir des datasets cochés (check3*) pour la release de reference
+
+self.releasesList_0 = [] : list_search_0(self) # liste des pre-releases in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ ( ['CMSSW_8_0_x/', ..., 'CMSSW_3_11_x/'])
+self.releasesList_rel_1 = [] : liste des fichiers in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ pour la release choisie ( ['CMSSW_8_0_x/', ..., 'CMSSW_3_11_x/'])
+self.releasesList_ref_1 = [] : liste des fichiers in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ pour la reference choisie ( ['CMSSW_8_0_x/', ..., 'CMSSW_3_11_x/'])
+self.releasesList_rel_2 = [] : liste des fichiers in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ pour la sous release choisie (ie GlobalTag)
+self.releasesList_ref_2 = [] : liste des fichiers in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ pour la sous reference choisie (ie GlobalTag)
+self.releasesList_rel_3 = [] : liste des fichiers in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ pour la sous release choisie et pour les datasets selectionnés
+self.releasesList_ref_3 = [] : liste des fichiers in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ pour la sous reference choisie et pour les datasets selectionnés
+self.releasesList_3 = [] : liste des datasets
+
+self.releasesList_rel_3b = [] : liste des caractéristiques in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ pour la sous release choisie et pour les datasets selectionnés (CMSSW_9_0_0_pre6-90X_mcRun2_asymptotic_v4-v1)
+self.releasesList_ref_3b = [] : liste des caractéristiques in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ pour la sous reference choisie et pour les datasets selectionnés (CMSSW_9_0_0_pre6-90X_mcRun2_asymptotic_v4-v1)
+self.releasesList_rel_5 = [] : liste des fichiers in https://cmsweb.cern.ch/dqm/relval/data/browse/ROOT/ pour les datasets choisis et les globaltags choisis
+
+self.okToPublishDatasets : liste des datasets communs (release/reference) pour la creation des histos
+self.okToDisplayDatasets : liste des datasets (release/reference) pour affichage : en bleu, les communs et en noir, les differents.
+Les précédents avec Display au lieu de Publish sont la pour affichage.
+
+self.my_choice_rel_0 = '' : une des valeurs au dessus choisie pour la release de travail : RELEASE
+self.my_choice_ref_0 = '' : une des valeurs au dessus choisie pour la release de reference : REFERENCE
+self.rel_list_0 = [] : liste des sous releases à partir de self.my_choice_rel_0 (CMSSW_8_0_0_pre1, ...)
+self.ref_list_0 = [] : liste des sous releases à partir de self.my_choice_ref_0
+self.my_choice_rel_1 = '' : valeur choisie pour la release de travail : SOUS RELEASE
+self.my_choice_ref_1 = '' : valeur choisie pour la release de reference : SOUS REFERENCE
+self.rel_list_1 = [] : liste de tous les datasets à partir de self.my_choice_rel_1 (sous release comme CMSSW_8_0_0_pre1, ...)
+self.ref_list_1 = [] : liste de tous les datasets à partir de self.my_choice_ref_1
+self.rel_list_2 = [] : liste des datasets selectionnes à partir de self.my_choice_rel_1 (sous release comme CMSSW_8_0_0_pre1, ...)
+self.ref_list_2 = [] : liste des datasets selectionnes à partir de self.my_choice_ref_1
+list_search_1() # list of DQM_000...root files
+
+clean_collections : for a given collection, keep the caracteristics that match with self.validationType1
+clean_collections2 : same as previous, for a given item, keep the caracteristics that match with self.validationType1
+
+parti pris de vider les precedents choix en cas de aller/revenir sur reference/release
+
+pour colorer du texte :
+        ## TEMP
+        self.texte+="<br /><strong><font color = \"blue\">coucou !!</font></strong>" 
+        ## TEMP        
+pour les datasets de release/reference, si les datasets extraits sont les même que pour les datasets initiaux alors on les affichent en bleu.
+une fois le choix fait, si les deux lots de datasets sont égaux alors il sont en vert, sinon les communs sont en bleu (à voir si ca peut se faire).
+
